@@ -1,0 +1,4 @@
+com.snowflake.nifi.PutSnowflake
+com.snowflake.nifi.ExecuteSnowPipe
+com.snowflake.nifi.QuerySnowPipeHistory
+com.snowflake.nifi.AwaitSnowPipeResults

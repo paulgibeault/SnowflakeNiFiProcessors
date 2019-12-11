@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.snowflake.nifi</groupId>
+        <artifactId>snowflake-bundle</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>snowflake-nar</artifactId>
+    <version>${processor.version}</version>
+    <packaging>nar</packaging>
+    <properties>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <source.skip>true</source.skip>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.snowflake.nifi</groupId>
+            <artifactId>snowflake-processors</artifactId>
+            <version>${processor.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.nifi</groupId>
+            <artifactId>nifi-standard-services-api-nar</artifactId>
+            <version>1.8.0</version>
+            <type>nar</type>
+        </dependency>
+    </dependencies>
+
+</project>
