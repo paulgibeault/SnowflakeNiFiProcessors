@@ -1,5 +1,5 @@
 # SnowflakeNiFiProcessors
-This project contains 3 NiFi processors for ingesting data into Snowflake
+This project contains 4 NiFi processors for ingesting data into Snowflake
 
 
 # New Features (v1.0.0)
