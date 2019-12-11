@@ -1,6 +1,6 @@
 # SnowflakeNiFiProcessors
-
 This project contains 3 NiFi processors for ingesting data into Snowflake
+
 
 # New Features (v1.0.0)
 Initial Release
@@ -49,3 +49,5 @@ This is implemented using a REST API connection to Snowflake with asymetrical ke
 The AwaitSnowPipeResults accepts flow files as an input.  On each execution it will pull every file in the input queue to obtain the SnowPipe list and time range to query.
 It will then query the appropriate information from Snowflake.  Finally it will compare the FlowFiles in the queue with the resutls from Snowflake to properly route each flow file.
 Flow files that have not received a result yet will be routed to the WAITING relationsip.  Flow files that remain in the WAITING relationship longer than the configured minutes will be routed to the UNMATCHED relationship.
+
+All code is provided as-is, with no garuntee or obligations, implied or otherwise.
