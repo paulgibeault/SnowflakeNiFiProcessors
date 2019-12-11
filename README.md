@@ -50,4 +50,5 @@ The AwaitSnowPipeResults accepts flow files as an input.  On each execution it w
 It will then query the appropriate information from Snowflake.  Finally it will compare the FlowFiles in the queue with the resutls from Snowflake to properly route each flow file.
 Flow files that have not received a result yet will be routed to the WAITING relationsip.  Flow files that remain in the WAITING relationship longer than the configured minutes will be routed to the UNMATCHED relationship.
 
+# Disclaimer
 All code is provided as-is, with no garuntee or obligations, implied or otherwise.
