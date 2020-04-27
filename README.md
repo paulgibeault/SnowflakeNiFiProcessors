@@ -77,30 +77,30 @@ If your flow file is routed to the success relationship, then the file was succe
 We will use a Snowflake object called SnowPipe to perform the parsing of the file and loading the data into a target table. 
 https://docs.snowflake.com/en/sql-reference/sql/create-pipe.html
 
-The SnowPipe is made up  a Copy Into Statement and a File Format object
+The SnowPipe is made up  of a 'Copy Into' Statement and a 'File Format' object
 ### Copy Into
 https://docs.snowflake.com/en/user-guide/data-load-local-file-system-copy.html
 ### File Format
 https://docs.snowflake.com/en/sql-reference/sql/create-file-format.html
 
-It may take some time to get the syntax of your Copy Into Statement to work properly.  I recommend performing this work in the Snowflake Web UI for rapid prototyping.  Once you have your Copy Into statement and File Format object functioning as expected, you can use this to create a SnowPipe object.
+It may take some time to get the syntax of your 'Copy Into' Statement to work properly.  I recommend performing this work in the Snowflake Web UI for rapid prototyping.  Once you have your Copy Into statement and File Format object functioning as expected, you can use it as the definition of your SnowPipe object.
 
 ### Execute Snow Pipe
-The SnowPipe essentially applies a name to your Copy Into statement that we can call from NiFi.
-This is the SnowPipe name used in the ExecuteSnowPipe processor.  
+The SnowPipe essentially applies a name to your 'Copy Into' statement that we can call from NiFi.
+Use the name of your New SnowPipe object in the ExecuteSnowPipe processor.  
 You will also configure the ExecuteSnowPipe Processor with the location of your uploaded file.  This can be from Snowflake's internal staging or your Cloud Service Provider's Storage location.
 
-If your relationship is routed to the failure relationship, it may mean the uploaded file was not found (or not accessible) or the SnowPipe name was not recognized.  
-If your relationship is routed to success, it only means that both the file and the SnowPipe were recognized.  It does not indicate your file was successfully parsed with the data loaded into the target table.
+If your FlowFile is routed to the 'Failure' relationship, it may mean the uploaded file was not found (or not accessible) or the SnowPipe name was not recognized.  
+If your FlowFile is routed to the 'Success' relationshop , it merely means that both the file and the SnowPipe were recognized.  It does not indicate your file was successfully parsed with the data loaded into the target table.
 
 In order to understand the success or failure of your SnowPipe call, you will need to make use of the AwaitSnowPipeResults NiFi Processor. 
 
 ### Await SnowPipe Results
 Route the 'success' relationship from the ExecuteSnowPipe processor to the AwaitSnowPipeResults processor.  Next Route the 'Waiting' relationship of the AwaitSnowPipeResults processor back to itself.
 
-When the processor runs, it will look at all flow files waiting to be processed by this processor.  From that list the processor will determine which SnowPipe to query for results.  It will also discover the minimal window of time to request (preventing unnecessary load on your Snowflake warehouse).  Once it has this information, it will submit a 'insertReport' API call to Snowflake, which returns a report for all requested SnowPipes for the requested time span.
+When the AwaitSnowPipeResults processor runs, it will look at all flow files waiting to be processed by this processor.  From that list, the processor will determine which SnowPipes to query for results.  It will also discover the minimal window of time to request (preventing unnecessary load on your Snowflake warehouse).  Once it has this information, it will submit a 'insertReport' API call to Snowflake, which returns a report for all identified SnowPipes for the requested time span.
 
-The processor then will compare the list returned from Snowflake with the list of FlowFiles waiting to be matched.  Any matches will be routed on the 'Success' or 'Failure' relationships according to the SnowPipe results.  The remaining flow files that were not matched in the report from Snowflake will be routed to the 'Waiting' relationship for consideration next time.
+The processor  will compare the list returned from Snowflake with the list of FlowFiles waiting to be matched.  Any matches will be routed on the 'Success' or 'Failure' relationships according to the results in the report from Snowflake.  The remaining flow files that were not matched in the report from Snowflake will be routed to the 'Waiting' relationship for consideration next time.
 
 ## Final Processing
 Once you have a successful or failure response from your SnowPipe you should probably log it for correction or auditing as required.
