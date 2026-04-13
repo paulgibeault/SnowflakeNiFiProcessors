@@ -244,7 +244,7 @@
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-broker</artifactId>
-            <version>5.15.3</version>
+            <version>5.19.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
